@@ -3,6 +3,8 @@ package api
 import (
 	"log"
 	"net/http"
+	"rest-api-demo/routes"
+
 	"github.com/gorilla/mux"
 )
 
@@ -21,7 +23,8 @@ func (s *APIServer) Run() error {
 	router := mux.NewRouter()
 
 	// register services
-	
+	handler := routes.NewHandlerNoParam()
+	handler.RegisterRoutes(router)
 	log.Println("Listening on port", s.Address)
 
 	err := http.ListenAndServe(s.Address, router)
