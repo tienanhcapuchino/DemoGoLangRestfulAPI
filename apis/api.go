@@ -1,11 +1,32 @@
 package api
 
 import (
-	"rest-api-demo/types"
+	"log"
+	"net/http"
+	"github.com/gorilla/mux"
 )
 
-func NewAPIServer(address string) *types.APIServer{
-	return &types.APIServer{
+type APIServer struct {
+	Address string
+}
+
+func NewAPIServer(address string) *APIServer{
+	return &APIServer{
 		Address: address,
 	}
+}
+
+func (s *APIServer) Run() error {
+	// create router
+	router := mux.NewRouter()
+
+	// register services
+	
+	log.Println("Listening on port", s.Address)
+
+	err := http.ListenAndServe(s.Address, router)
+	if (err != nil){
+		log.Fatalf("error when run server: %s", err)
+	}
+	return nil
 }
