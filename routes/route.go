@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	store "rest-api-demo/interfaces/users"
-	"rest-api-demo/types"
 	"rest-api-demo/utils"
 
 	"github.com/gorilla/mux"
@@ -29,11 +29,12 @@ func (h *Handler) RegisterRoutes(router *mux.Router) {
 }
 
 func (h *Handler) getAllUsers(w http.ResponseWriter, r *http.Request) {
-	var users [4]types.UserModel
-	users[0] = types.UserModel{Name: "user1", Email: "user1@example.com", Age: 25}
-	users[1] = types.UserModel{Name: "Bob", Email: "bob@example.com", Age: 30}
-	users[2] = types.UserModel{Name: "Bob1", Email: "bob1@example.com", Age: 30}
-	users[3] = types.UserModel{Name: "Bob2", Email: "bob2@example.com", Age: 30}
+	users, err := h.store.GetAllUsers()
 
+	fmt.Printf("users: %v \n", users)
+
+	if err != nil{
+		utils.WriteJSON(w, http.StatusBadRequest, err)
+	}
 	utils.WriteJSON(w, http.StatusOK, users)
 }

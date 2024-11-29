@@ -5,6 +5,5 @@ import (
 )
 
 type UserStore interface {
-	GetAllUsers() (*types.UserModel, error)
-	CreateUser(user types.UserModel) error
+	GetAllUsers() ([]types.UserModel, error)
 }
